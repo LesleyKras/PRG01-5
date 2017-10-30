@@ -24,14 +24,19 @@ Route::get('/advertisements/{id}', [
     'uses' => 'AdvertisementController@getAdvertisement'
 ])->name('advertisements.post');
 
+Route::get('/advertisements/{id}/like', [
+    'uses' => 'AdvertisementController@getLikeAdvertisement'
+])->name('advertisement.like');
+
 Route::group(['prefix' => 'profile'], function() {
     Route::get('', function(){
         return view('profile.index');
     })->name('profile.index');
 
-    Route::get('/create', function () {
-        return view('profile.create');
-    })->name('profile.create');
+    Route::get('/create', [
+        'uses' => 'AdvertisementController@getCreateAdvertisement',
+        'as' => 'profile.create'
+    ]);
 
     Route::post('/create', [
         'uses' => 'AdvertisementController@createAdvertisement',

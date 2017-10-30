@@ -28,6 +28,13 @@
                     </div>
                 </div>
             </div>
+            @foreach($categorys as $category)
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="categorys[]" value="{{$category->id}}" {{$advertisement->categorys->contains($category->id) ? 'checked' : ''}} >{{$category->name}}
+                    </label>
+                </div>
+            @endforeach
             {{csrf_field()}}
             <input type="hidden" name="id" value="{{$advertisementId}}">
             <button type="submit" class="btn btn-primary">Submit</button>

@@ -36,6 +36,13 @@
                     </div>
                 </div>
             </div>
+            @foreach($categorys as $category)
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="categorys[]" value="{{$category->id}}">{{$category->name}}
+                    </label>
+                </div>
+            @endforeach
             {{csrf_field()}}
             <button type="submit" class="btn btn-primary">Submit</button>
         </div><!-- /.row this actually does not appear to be needed with the form-horizontal -->
