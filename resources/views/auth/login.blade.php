@@ -1,9 +1,14 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
+            @if(Session::has('fail'))
+                <div class="alert alert-danger">
+                    {{Session::get('fail')}}
+                </div>
+            @endif
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
 

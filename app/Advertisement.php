@@ -15,5 +15,9 @@ use Illuminate\Database\Eloquent\Model;
             return $this->belongsToMany('App\Category')->withTimestamps();
         }
 
+        public function user(){
+            return $this->belongsTo('App\User');
+        }
+
 
     }

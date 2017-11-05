@@ -6,7 +6,8 @@ use App\Advertisement;
 use App\Category;
 use App\Like;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 class AdvertisementController extends Controller
 {
     public function getIndex(){
@@ -32,27 +33,41 @@ class AdvertisementController extends Controller
     }
 
     public function createAdvertisement(Request $request){
+        if(!Auth::check()){
+            return redirect()->back();
+        }
         $this->validate($request, [
             'title' => 'required|min:5',
             'description' => 'required|min:10'
         ]);
+
+        $user = Auth::user();
+        if(!$user) {
+            return redirect()->back;
+        }
 
         $advertisement = new Advertisement([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'price' => $request->input('price')
         ]);
-        $advertisement->save();
+        $user->advertisements()->save($advertisement);
         $advertisement->categorys()->attach($request->input('categorys') === null ? : $request->input('categorys'));
         return redirect()->route('profile.index')->with('info', 'Advertisement with title ' .$request->input('title'). ' succesfully created!');
     }
 
     public function updateAdvertisement(Request $request){
+        if(!Auth::check()){
+            return redirect()->back();
+        }
         $this->validate($request, [
             'title' => 'required|min:5',
             'description' => 'required|min:10'
         ]);
         $advertisement = Advertisement::find($request->input('id'));
+        if (Gate::denies('manipulate-advertisement', $advertisement)){
+            return redirect()->back();
+        }
         $advertisement->title = $request->input('title');
         $advertisement->description = $request->input('description');
         $advertisement->price = $request->input('price');
@@ -62,7 +77,13 @@ class AdvertisementController extends Controller
     }
 
     public function getAdvertisementDelete($id){
+        if(!Auth::check()){
+            return redirect()->back();
+        }
         $advertisement = Advertisement::find($id);
+        if (Gate::denies('manipulate-advertisement', $advertisement)){
+            return redirect()->back();
+        }
         $advertisement->likes()->delete();
         $advertisement->categorys()->detach();
         $advertisement->delete();
