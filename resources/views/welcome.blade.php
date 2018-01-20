@@ -1,6 +1,10 @@
 @extends('layouts.master')
 
 @section('content')
+    @if(Session::has('info'))
+        <p class="alert alert-info">{{Session::get('info')}}</p>
+    @endif
+
 <div class="row">
     <div class="col-md-12">
         <h1>Welcome to the marketplace</h1>

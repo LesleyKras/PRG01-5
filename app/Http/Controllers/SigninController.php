@@ -17,7 +17,7 @@ class SigninController extends Controller
             'email' => $request->input('email'),
             'password' => $request->input('password')
         ], $request->has('remember'))) {
-            return redirect()->route('profile.index');
+            return redirect()->route('advertisements.index');
         }
         return redirect()->back()->with('fail', 'Authentication failed!');
     }

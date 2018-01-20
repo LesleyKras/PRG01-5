@@ -3,12 +3,15 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-12 col-md-offset-2">
             @if(Session::has('fail'))
                 <div class="alert alert-danger">
                     {{Session::get('fail')}}
                 </div>
             @endif
+                @if(Session::has('info'))
+                    <p class="alert alert-info">{{Session::get('info')}}</p>
+                @endif
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
 

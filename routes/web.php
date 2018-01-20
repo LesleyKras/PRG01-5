@@ -11,51 +11,65 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
-
-Route::get('/advertisements', [
-    'uses' => 'AdvertisementController@getIndex',
-    'as' => 'advertisements.index'
+Route::get('/', [
+    'uses' => 'HomeController@getIndex',
+    'as' => 'home.index'
 ]);
 
-Route::get('/advertisements/{id}', [
-    'uses' => 'AdvertisementController@getAdvertisement'
-])->name('advertisements.post');
-
-Route::get('/advertisements/{id}/like', [
-    'uses' => 'AdvertisementController@getLikeAdvertisement'
-])->name('advertisement.like');
-
-Route::group(['prefix' => 'profile'], function() {
-    Route::get('', function(){
-        return view('profile.index');
-    })->name('profile.index');
-
-    Route::get('/create', [
-        'uses' => 'AdvertisementController@getCreateAdvertisement',
-        'as' => 'profile.create'
-    ]);
-
-    Route::post('/create', [
-        'uses' => 'AdvertisementController@createAdvertisement',
+// advertisements routing
+Route::group(['prefix' => 'advertisements'], function() {
+    Route::get('', [
+        'uses' => 'AdvertisementController@getIndex',
         'as' => 'advertisements.index'
-    ])->name('profile.create');
-
-    Route::get('/edit/{id}', [
-        'uses' => 'AdvertisementController@getAdvertisementEdit',
-        'as' => 'profile.edit'
     ]);
+
+    Route::get('/{id}', [
+        'uses' => 'AdvertisementController@getAdvertisement'
+    ])->name('advertisements.post');
+
+    Route::get('/{id}/like', [
+        'uses' => 'AdvertisementController@getLikeAdvertisement'
+    ])->name('advertisements.like');
+
 
     Route::get('/delete/{id}', [
         'uses' => 'AdvertisementController@getAdvertisementDelete',
-        'as' => 'profile.delete'
+        'as' => 'advertisements.delete'
+    ]);
+
+});
+
+// create advertisement routing
+Route::group(['prefix' => 'create'], function() {
+    Route::get('', [
+        'uses' => 'AdvertisementController@getCreateAdvertisement',
+        'as' => 'advertisements.create'
+    ]);
+
+    Route::post('', [
+        'uses' => 'AdvertisementController@createAdvertisement',
+        'as' => 'advertisements.index'
+    ])->name('advertisements.create');
+});
+
+// edit advertisement routing
+Route::group(['prefix' => 'edit'], function() {
+    Route::get('{id}', [
+        'uses' => 'AdvertisementController@getAdvertisementEdit',
+        'as' => 'advertisements.edit'
     ]);
 
     Route::post('/edit', [
         'uses' => 'AdvertisementController@updateAdvertisement',
-        'as' => 'profile.update'
+        'as' => 'advertisements.update'
+    ]);
+});
+
+// profile routing
+Route::group(['prefix' => 'profile'], function() {
+    Route::get('', [
+        'uses' => 'ProfileController@getIndex',
+        'as' => 'profile.index'
     ]);
 });
 

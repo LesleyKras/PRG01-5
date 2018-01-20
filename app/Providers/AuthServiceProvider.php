@@ -26,7 +26,11 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('manipulate-advertisement' , function ($user, $advertisement) {
-            return $user->id == $advertisement->user_id;
+            return $user->id == $advertisement->user_id || $user->role_id == 2;
+        });
+
+        Gate::define('admin-rights' , function ($user) {
+            return $user->role_id == 2;
         });
     }
 }
