@@ -15,6 +15,7 @@ class CreateAdvertisementsTable extends Migration
     {
         Schema::create('advertisements', function (Blueprint $table) {
             $table->increments('id');
+            $table->boolean('active')->default(true);
             $table->timestamps();
             $table->string('title');
             $table->text('description');

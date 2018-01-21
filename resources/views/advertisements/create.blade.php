@@ -30,14 +30,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-lg-4">
-                <div class="form-group">
-                    <label for="category" class="col-md-4 control-label">Category:</label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="category" placeholder="Category">
-                    </div>
-                </div>
-            </div>
             @foreach($categorys as $category)
                 <div class="checkbox">
                     <label>

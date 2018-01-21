@@ -10,9 +10,6 @@
                 <a class="nav-link" href="{{route('advertisements.index')}}">Advertisements<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{route('categories.index')}}">Categories</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="{{route('profile.index')}}">Profile</a>
             </li>
         </ul>
@@ -38,10 +35,13 @@
                     </li>
             @endguest
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        @guest
+            @else
+        <form class="form-inline my-2 my-lg-0" action="{{route('advertisements.search')}}" method="get">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" id="key" name="key" aria-label="Search">
             <button class="btn my-2 my-sm-0" type="submit">Search</button>
         </form>
+            @endguest
     </div>
 </nav>
 

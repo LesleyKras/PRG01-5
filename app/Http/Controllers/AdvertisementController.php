@@ -67,7 +67,8 @@ class AdvertisementController extends Controller
         $advertisement = new Advertisement([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
-            'price' => $request->input('price')
+            'price' => $request->input('price'),
+            'active' => true
         ]);
         $user->advertisements()->save($advertisement);
         $advertisement->categorys()->attach($request->input('categorys') === null ? : $request->input('categorys'));
@@ -118,6 +119,25 @@ class AdvertisementController extends Controller
             return redirect()->route('profile.index')->with('info', 'You do not have the rights to modify this item.');
         }
         return view('advertisements.edit', ['advertisement' => $advertisement, 'advertisementId' => $id, 'categorys' => $categorys]);
+    }
+
+    public function toggleActiveAdvertisement($id){
+        if(!Auth::check()){
+            return redirect()->route('auth.signin')->with('info', 'You need to be logged in to edit a post.');
+        }
+        $advertisement = Advertisement::find($id);
+
+        if($advertisement->active){
+            $advertisement->active = false;
+            $advertisement->save();
+            return redirect()->route('profile.index')->with('info', 'Advertisement with title ' .$advertisement->title. ' succesfully disabled!');
+        }
+        else if(!$advertisement->active){
+            $advertisement->active = true;
+            $advertisement->save();
+            return redirect()->route('profile.index')->with('info', 'Advertisement with title ' .$advertisement->title. ' succesfully enabled!');
+        }
+
     }
 
 

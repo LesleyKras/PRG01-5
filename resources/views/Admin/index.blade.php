@@ -4,13 +4,7 @@
     @if(Session::has('info'))
         <p class="alert alert-info">{{Session::get('info')}}</p>
     @endif
-    <h2>Profile</h2>
-    <p>Name: {{$user->name}}</p>
-    <p>E-mail: {{$user->email}}</p>
-    <p>Role: {{$roles->name}}</p>
-
-
-    <h2>My Advertisements</h2>
+    <h2>All Advertisements</h2>
     <table class="table">
         <thead>
         <tr>
@@ -38,9 +32,9 @@
                     <a href="{{route('advertisements.toggle', ['id' => $advertisement->id])}}">
                         @if($advertisement->active)
                             Disable
-                            @else()
+                        @else()
                             Enable
-                            @endif
+                        @endif
                     </a>
                 </td>
             </tr>

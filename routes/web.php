@@ -31,6 +31,10 @@ Route::group(['prefix' => 'advertisements'], function() {
         'uses' => 'AdvertisementController@getLikeAdvertisement'
     ])->name('advertisements.like');
 
+    Route::get('/{id}/toggle', [
+        'uses' => 'AdvertisementController@toggleActiveAdvertisement'
+    ])->name('advertisements.toggle');
+
 
     Route::get('/delete/{id}', [
         'uses' => 'AdvertisementController@getAdvertisementDelete',
@@ -73,9 +77,20 @@ Route::group(['prefix' => 'profile'], function() {
     ]);
 });
 
-Route::get('/categories', function () {
-    return view('categories.index');
-})->name('categories.index');
+Route::group(['prefix' => 'admin'], function() {
+    Route::get('', [
+        'uses' => 'AdminController@getIndex',
+        'as' => 'admin.index'
+    ]);
+});
+
+//search routing
+Route::group(['prefix' => 'search'], function() {
+    Route::get('', [
+        'uses' => 'SearchController@search',
+        'as' => 'advertisements.search'
+    ]);
+});
 
 Auth::routes();
 
