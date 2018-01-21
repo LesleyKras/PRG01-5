@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-    <a href="{{ URL::previous() }}">Go Back</a>
+    <a href="{{route('advertisements.index')}}">Go Back</a>
     <h1>{{$advertisement->title}}</h1>
     <p>{{$advertisement->description}}</p>
     <p>{{$advertisement->price}}</p>

@@ -54,9 +54,18 @@ class AdvertisementController extends Controller
         if(!Auth::check()){
             return redirect()->back();
         }
-        $this->validate($request, [
-            'title' => 'required|min:5',
-            'description' => 'required|min:10'
+
+        $this->validate(request(), [
+            'title' =>
+                array(
+                    'required',
+                    'regex:/(^([a-zA-Z0-9_ ]+)(\d+)?$)/u'
+                ),
+            'description' =>
+                array(
+                    'required',
+                    'regex:/(^([a-zA-Z0-9_ ]+)(\d+)?$)/u'
+                )
         ]);
 
         $user = Auth::user();
@@ -79,9 +88,17 @@ class AdvertisementController extends Controller
         if(!Auth::check()){
             return redirect()->back();
         }
-        $this->validate($request, [
-            'title' => 'required|min:5',
-            'description' => 'required|min:10'
+        $this->validate(request(), [
+            'title' =>
+                array(
+                    'required',
+                    'regex:/(^([a-zA-Z0-9_ ]+)(\d+)?$)/u'
+                ),
+            'description' =>
+                array(
+                    'required',
+                    'regex:/(^([a-zA-Z0-9_ ]+)(\d+)?$)/u'
+                )
         ]);
         $advertisement = Advertisement::find($request->input('id'));
         if (Gate::denies('manipulate-advertisement', $advertisement)){
@@ -102,7 +119,7 @@ class AdvertisementController extends Controller
         $user = Auth::user();
         $advertisement = Advertisement::find($id);
         if (Gate::denies('manipulate-advertisement', $advertisement, $user)){
-            return redirect()->back();
+            return redirect()->route('profile.index')->with('info', 'You do not have the rights to modify this item.');
         }
         $advertisement->likes()->delete();
         $advertisement->categorys()->detach();
